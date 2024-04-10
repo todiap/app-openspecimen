@@ -24,7 +24,7 @@ services:
       - SYS_NICE 
       
   local-openspecimen-web:
-    image: bibbox/openspecimen:9-0-RC2
+    image: bibbox/openspecimen:v10.1.RC1pre
     container_name: local-openspecimen-web
     user: tomcat
     restart: unless-stopped
@@ -34,6 +34,7 @@ services:
       - local-openspecimen-db:openspecimen-db
     environment:
       - DATABASE_HOST=openspecimen-db
+      - DATABASE_PORT=3306
       - MYSQL_ROOT_PASSWORD=openspecimen
       - MYSQL_DATABASE=openspecimen
       - MYSQL_USER=openspecimen
@@ -41,9 +42,8 @@ services:
     depends_on:
       - local-openspecimen-db
     volumes:
-      - ./data/os-data:/var/lib/tomcat9/openspecimen/data
-      - ./data/os-plugins:/var/lib/tomcat9/openspecimen/plugins
+      - ./data/os-data:/var/lib/openspecimen/data
+      - ./data/os-plugins:/var/lib/openspecimen/plugins
       - ./configs/openspecimen/ROOT:/var/lib/tomcat9/webapps/ROOT
-      - ./configs/openspecimen/scripts/entrypoint.sh:/opt/scripts/entrypoint.sh
     ports:
       - "9000:8080"
