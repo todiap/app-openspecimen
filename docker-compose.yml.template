@@ -22,7 +22,7 @@ services:
       - ./configs/openspecimen.cnf:/etc/mysql/conf.d/openspecimen.cnf:ro
      
   §§INSTANCE-openspecimen-web:
-    image: bibbox/openspecimen:v10.1.RC1pre
+    image: bibbox/openspecimen:v10.1.RC1
     container_name: §§INSTANCE-openspecimen-web
     restart: unless-stopped
     user: tomcat
@@ -32,6 +32,7 @@ services:
       - §§INSTANCE-openspecimen-db:openspecimen-db
     environment:
       - DATABASE_HOST=openspecimen-db
+      - DATABASE_PORT=3306
       - MYSQL_ROOT_PASSWORD=thispasswordisneverusededoutsidethecontainer
       - MYSQL_DATABASE=openspecimen
       - MYSQL_USER=§§MYSQL_DATABASE_USER
