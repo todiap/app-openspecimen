@@ -1,9 +1,5 @@
 version: '3'
 
-networks:
-    bibbox-default-network:
-      external: true
-
 services:
 
   local-openspecimen-db:
@@ -11,7 +7,6 @@ services:
     container_name: local-openspecimen-db
     restart: unless-stopped
     networks:
-      - bibbox-default-network
     environment:
       - MYSQL_ROOT_PASSWORD=openspecimen
       - MYSQL_DATABASE=openspecimen
@@ -29,7 +24,6 @@ services:
     user: tomcat
     restart: unless-stopped
     networks:
-      - bibbox-default-network
     links:
       - local-openspecimen-db:openspecimen-db
     environment:
