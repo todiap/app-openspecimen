@@ -1,5 +1,9 @@
 version: '3'
 
+networks:
+    bibbox-default-network:
+      external: true
+
 services:
 
   local-openspecimen-db:
@@ -7,6 +11,7 @@ services:
     container_name: local-openspecimen-db
     restart: unless-stopped
     networks:
+      - bibbox-default-network
     environment:
       - MYSQL_ROOT_PASSWORD=openspecimen
       - MYSQL_DATABASE=openspecimen
@@ -24,21 +29,23 @@ services:
     user: tomcat
     restart: unless-stopped
     networks:
+      - bibbox-default-network
     links:
       - local-openspecimen-db:openspecimen-db
     environment:
       - CATALINA_OPTS="-Xmx2048m"
       - DATABASE_HOST=openspecimen-db
-      - DATABASE_PORT=3306
       - MYSQL_ROOT_PASSWORD=openspecimen
       - MYSQL_DATABASE=openspecimen
       - MYSQL_USER=openspecimen
       - MYSQL_PASSWORD=openspecimen
+      - TZ=Etc/GMT+7
     depends_on:
       - local-openspecimen-db
     volumes:
-      - ./data/os-data:/var/lib/openspecimen/data
-      - ./data/os-plugins:/var/lib/openspecimen/plugins
+      - ./data/os-data:/var/lib/tomcat9/openspecimen/data
+      - ./data/os-plugins:/var/lib/tomcat9/openspecimen/plugins
       - ./configs/openspecimen/ROOT:/var/lib/tomcat9/webapps/ROOT
+      - ./configs/openspecimen/scripts/entrypoint.sh:/opt/scripts/entrypoint.sh
     ports:
       - "9000:8080"
