@@ -33,6 +33,7 @@ services:
     links:
       - local-openspecimen-db:openspecimen-db
     environment:
+      - CATALINA_OPTS="-Xmx2048m"
       - DATABASE_HOST=openspecimen-db
       - DATABASE_PORT=3306
       - MYSQL_ROOT_PASSWORD=openspecimen
